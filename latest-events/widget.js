@@ -90,7 +90,10 @@ window.addEventListener("onWidgetLoad", obj => {
 		name.innerText = event.name;
 		name.style.fontSize = `${size}px`;
 		eventContainer.appendChild(name);
-		while (name.clientWidth > container.clientWidth - 20 && size > 10) {
+		while (
+			name.clientWidth > container.clientWidth - fieldData.gapSize &&
+			size > fieldData.minFontSize
+		) {
 			size = size - 1;
 			name.style.fontSize = `${size}px`;
 		}
@@ -131,7 +134,7 @@ window.addEventListener("onEventReceived", obj => {
 			"cheer-latest",
 			"tip-latest",
 			"host-latest",
-			"raid-latest"
+			"raid-latest",
 		].includes(listener)
 	)
 		return;
@@ -155,7 +158,10 @@ window.addEventListener("onEventReceived", obj => {
 	text.innerText = event.name;
 	text.style.fontSize = `${size}px`;
 
-	while (text.clientWidth > container.clientWidth - 20 && size > 10) {
+	while (
+		text.clientWidth > container.clientWidth - fieldData.gapSize &&
+		size > fieldData.minFontSize
+	) {
 		size = size - 1;
 		text.style.fontSize = `${size}px`;
 	}

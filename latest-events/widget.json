@@ -126,6 +126,12 @@
 		"min": 1,
 		"value": 30
 	},
+	"minFontSize": {
+		"type": "number",
+		"label": "Minimum font size",
+		"min": 1,
+		"value": 10
+	},
 	"fontColor": {
 		"type": "colorpicker",
 		"label": "Font color",
@@ -142,9 +148,16 @@
 		"label": "Value font color",
 		"value": "rgb(255, 255, 255)"
 	},
-	"iconColor": {
-		"type": "colorpicker",
-		"label": "Icon Color",
-		"value": "rgb(255, 255, 255, 255)"
+	"iconSize": {
+		"type": "number",
+		"label": "Icon size",
+		"min": 1,
+		"value": 50
+	},
+	"gapSize": {
+		"type": "number",
+		"label": "Gap size",
+		"min": 1,
+		"value": 20
 	}
 }
