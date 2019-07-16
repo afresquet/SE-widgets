@@ -1,0 +1,42 @@
+{
+	"textColor": {
+		"type": "colorpicker",
+		"label": "Text color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"highlightColor": {
+		"type": "colorpicker",
+		"label": "Highlighted text color",
+		"value": "rgb(255, 255, 255, 255)"
+	},
+	"fontSize": {
+		"type": "number",
+		"label": "Font size",
+		"min": 1,
+		"value": 30
+	},
+	"iconSize": {
+		"type": "number",
+		"label": "Icon size",
+		"min": 1,
+		"value": 50
+	},
+	"iconGap": {
+		"type": "number",
+		"label": "Icon Gap",
+		"min": 1,
+		"value": 20
+	},
+	"time": {
+		"type": "number",
+		"label": "Time",
+		"min": 1,
+		"value": 10
+	},
+	"transitionTime": {
+		"type": "number",
+		"label": "Transition time",
+		"min": 1,
+		"value": 1
+	}
+}
