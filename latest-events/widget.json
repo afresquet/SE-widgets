@@ -1,0 +1,150 @@
+{
+	"follower": {
+		"type": "dropdown",
+		"label": "Display followers:",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"followerIcon": {
+		"type": "text",
+		"label": "Follower icon:",
+		"value": "https://i.imgur.com/3EZQo3S.png"
+	},
+	"subscriber": {
+		"type": "dropdown",
+		"label": "Display subscribers:",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"subscriberIcon": {
+		"type": "text",
+		"label": "Subscriber icon:",
+		"value": "https://i.imgur.com/1SU07Xe.png"
+	},
+	"cheer": {
+		"type": "dropdown",
+		"label": "Display cheers:",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"cheerMin": {
+		"type": "number",
+		"label": "Minimum amount of bits in Cheer:",
+		"value": 1
+	},
+	"cheerIcon": {
+		"type": "text",
+		"label": "Cheer icon:",
+		"value": "https://i.imgur.com/FI6eR0l.png"
+	},
+	"tip": {
+		"type": "dropdown",
+		"label": "Display tips:",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"tipMin": {
+		"type": "number",
+		"label": "Minimum amount of tip:",
+		"value": 1
+	},
+	"tipSymbol": {
+		"type": "text",
+		"label": "Tip symbol:",
+		"value": "$"
+	},
+	"tipIcon": {
+		"type": "text",
+		"label": "Tip icon:",
+		"value": "https://i.imgur.com/XYWcqJM.png"
+	},
+	"host": {
+		"type": "dropdown",
+		"label": "Display hosts:",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"hostMin": {
+		"type": "number",
+		"label": "Minimum amount of hosting viewers:",
+		"value": 1
+	},
+	"hostIcon": {
+		"type": "text",
+		"label": "Host icon:",
+		"value": ""
+	},
+	"raid": {
+		"type": "dropdown",
+		"label": "Display raids:",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"raidMin": {
+		"type": "number",
+		"label": "Minimum amount of raiding viewers:",
+		"value": 1
+	},
+	"raidIcon": {
+		"type": "text",
+		"label": "Raid icon:",
+		"value": ""
+	},
+	"time": {
+		"type": "number",
+		"label": "Time",
+		"min": 1,
+		"value": 10
+	},
+	"transitionTime": {
+		"type": "number",
+		"label": "Transiton time",
+		"min": 1,
+		"value": 1
+	},
+	"fontSize": {
+		"type": "number",
+		"label": "Font size",
+		"min": 1,
+		"value": 30
+	},
+	"fontColor": {
+		"type": "colorpicker",
+		"label": "Font color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"valueFontSize": {
+		"type": "number",
+		"label": "Value font size",
+		"min": 1,
+		"value": 20
+	},
+	"valueFontColor": {
+		"type": "colorpicker",
+		"label": "Value font color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"iconColor": {
+		"type": "colorpicker",
+		"label": "Icon Color",
+		"value": "rgb(255, 255, 255, 255)"
+	}
+}
