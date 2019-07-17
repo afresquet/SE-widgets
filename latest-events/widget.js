@@ -149,13 +149,19 @@ window.addEventListener("onEventReceived", obj => {
 	)
 		return;
 
+	if (event.type === "subscriber" && event.isCommunityGift) return;
+
 	let size = fieldData.fontSize;
 
 	const container = document.querySelector(".container");
 
 	const text = document.querySelector(`#${event.type} > .text`);
 
-	text.innerText = event.name;
+	if (event.gifted) {
+		text.innerText = event.sender;
+	} else {
+		text.innerText = event.name;
+	}
 	text.style.fontSize = `${size}px`;
 
 	while (
@@ -172,7 +178,13 @@ window.addEventListener("onEventReceived", obj => {
 
 	switch (event.type) {
 		case "subscriber": {
-			amount.innerText = `x${event.amount}`;
+			if (event.bulkGifted) {
+				amount.innerText = `gift x${event.count}`;
+			} else if (event.gifted) {
+				amount.innerText = "gift x1";
+			} else {
+				amount.innerText = `x${event.amount}`;
+			}
 			break;
 		}
 		case "tip": {
