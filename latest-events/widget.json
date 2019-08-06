@@ -1,4 +1,13 @@
 {
+	"direction": {
+		"type": "dropdown",
+		"label": "Direction:",
+		"value": "vertical",
+		"options": {
+			"vertical": "Vertical",
+			"horizontal": "Horizontal"
+		}
+	},
 	"follower": {
 		"type": "dropdown",
 		"label": "Display followers:",

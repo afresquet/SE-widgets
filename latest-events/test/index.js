@@ -1,4 +1,24 @@
-let fieldData = {};
+const fieldData = {
+	direction: "horizontal",
+	time: 1,
+	fontSize: 40,
+	minFontSize: 10,
+	gapSize: 10,
+	tipSymbol: "$",
+	follower: "yes",
+	followerIcon: "https://i.imgur.com/3EZQo3S.png",
+	subscriber: "yes",
+	subscriberIcon: "https://i.imgur.com/1SU07Xe.png",
+	cheer: "yes",
+	cheerMin: 1,
+	cheerIcon: "https://i.imgur.com/FI6eR0l.png",
+	tip: "yes",
+	tipMin: 1,
+	host: "yes",
+	hostMin: 1,
+	raid: "yes",
+	raidMin: 1,
+};
 
 const cycle = (index = 0) => {
 	const events = document.querySelectorAll(".event");
@@ -25,12 +45,12 @@ const cycle = (index = 0) => {
 	return setTimeout(cycle, fieldData.time * 1000, nextIndex);
 };
 
-window.addEventListener("onWidgetLoad", obj => {
-	fieldData = obj.detail.fieldData;
-
-	const recents = obj.detail.recents.sort(
-		(a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-	);
+const onWidgetLoad = obj => {
+	const recents = [
+		{ type: "follower", name: "Koolade_" },
+		{ type: "subscriber", name: "webs2d", amount: 2 },
+		{ type: "cheer", name: "Etchy", amount: 2 },
+	];
 
 	const events = {};
 
@@ -125,7 +145,8 @@ window.addEventListener("onWidgetLoad", obj => {
 	});
 
 	cycle();
-});
+};
+onWidgetLoad();
 
 window.addEventListener("onEventReceived", obj => {
 	const listener = obj.detail.listener;
