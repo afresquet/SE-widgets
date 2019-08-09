@@ -1,0 +1,31 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: "Rubik", "Montserrat", sans-serif;
+	color: #fff;
+	font-size: 20px;
+	text-align: center;
+	overflow: hidden;
+}
+
+.container {
+	width: 187px;
+	height: 500px;
+	padding: 10px 0px;
+	background-color: #1a2429;
+}
+
+.emblem {
+	display: block;
+	width: 50%;
+	height: auto;
+	margin: 0px auto;
+}
+
+.text {
+	margin-top: 10px;
+}
+
+.rank {
+	color: #008cb6;
+}

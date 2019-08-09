@@ -1,0 +1,74 @@
+{
+	"server": {
+		"type": "dropdown",
+		"label": "Server:",
+		"value": "North America",
+		"options": {
+			"na1": "North America",
+			"euw1": "Europe West",
+			"eun1": "Europe North",
+			"la1": "Latin America North",
+			"la2": "Latin America South",
+			"br1": "Brasil",
+			"ru": "Russia",
+			"kr": "Korea",
+			"oc1": "Oceania",
+			"jp1": "Japan",
+			"tr1": "Turkey"
+		}
+	},
+	"queue": {
+		"type": "dropdown",
+		"label": "Queue:",
+		"value": "RANKED_SOLO_5x5",
+		"options": {
+			"RANKED_SOLO_5x5": "Solo/Duo Queue (SR)",
+			"RANKED_FLEX_SR": "Flex Queue (SR)",
+			"RANKED_TFT": "TFT"
+		}
+	},
+	"summonerName": {
+		"type": "text",
+		"label": "Summoner Name:",
+		"value": ""
+	},
+	"apiKey": {
+		"type": "text",
+		"label": "API Key:",
+		"value": ""
+	},
+	"refreshRate": {
+		"type": "number",
+		"label": "Refresh rate (minutes)",
+		"min": 1,
+		"value": 5
+	},
+	"textColor": {
+		"type": "colorpicker",
+		"label": "Text color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"highlightColor": {
+		"type": "colorpicker",
+		"label": "Highlight text color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"fontSize": {
+		"type": "number",
+		"label": "Font size",
+		"min": 1,
+		"value": 30
+	},
+	"emblemSize": {
+		"type": "number",
+		"label": "Emblem size",
+		"min": 1,
+		"value": 50
+	},
+	"gapSize": {
+		"type": "number",
+		"label": "Gap size",
+		"min": 1,
+		"value": 10
+	}
+}
