@@ -1,0 +1,170 @@
+:root {
+	--border-width: {{borderWidth}}px;
+	--gap-size: {{gapSize}}px;
+
+	--webcam-size: {{webcamSize}};
+	--webcam-width: calc(1920px * var(--webcam-size) / 100);
+	--webcam-height: calc(1080px * var(--webcam-size) / 100);
+	--display-size: {{displaySize}};
+	--display-width: calc(1920px * var(--display-size) / 100);
+	--display-height: calc(1080px * var(--display-size) / 100);
+
+	--disposable-size: calc(100% - var(--gap-size) * 3 - var(--border-width) * 2);
+
+	--vertical-divider-size: calc(1% * {{verticalDividerSize}});
+	--vertical-divider-1: {{verticalDivider1}}%;
+	--vertical-divider-2: {{verticalDivider2}}%;
+	--vertical-divider-3: {{verticalDivider3}}%;
+	--horizontal-divider-size: calc(1% * {{horizontalDividerSize}});
+	--horizontal-divider-1: {{horizontalDivider1}}%;
+	--horizontal-divider-2: {{horizontalDivider2}}%;
+	--horizontal-divider-3: {{horizontalDivider3}}%;
+	--horizontal-divider-4: {{horizontalDivider4}}%;
+
+	--default-color: {{defaultColor}};
+	--follower-color: {{followerColor}};
+	--subscriber-color: {{subscriberColor}};
+	--cheer-color: {{cheerColor}};
+	--tip-color: {{tipColor}};
+	--host-color: {{hostColor}};
+	--raid-color: {{raidColor}};
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	border-width: var(--border-width);
+	transition: border-color 0.5s ease-in-out;
+}
+
+.layout {
+	position: relative;
+	padding: var(--gap-size);
+	width: 100%;
+	height: 100%;
+}
+
+.webcam,
+.display,
+.horizontal-segment,
+.vertical-segment {
+	position: fixed;
+	border-style: solid;
+	border-color: var(--default-color);
+	border-radius: var(--border-width);
+}
+
+.webcam {
+	width: calc(var(--webcam-width) - var(--border-width) * 2);
+	height: calc(var(--webcam-height) - var(--border-width) * 2);
+	z-index: 10;
+}
+
+.display {
+	width: calc(var(--display-width) - var(--border-width) * 2);
+	height: calc(var(--display-height) - var(--border-width) * 2);
+}
+
+.horizontal-segment {
+	width: calc(var(--disposable-size) - var(--webcam-width));
+	height: calc(var(--disposable-size) - var(--display-height));
+}
+
+.vertical-segment {
+	width: calc(var(--disposable-size) - var(--display-width));
+	height: calc(var(--disposable-size) - var(--webcam-height));
+}
+
+.topleft {
+	top: var(--gap-size);
+	left: var(--gap-size);
+}
+.topright {
+	top: var(--gap-size);
+	right: var(--gap-size);
+}
+.bottomleft {
+	bottom: var(--gap-size);
+	left: var(--gap-size);
+}
+.bottomright {
+	bottom: var(--gap-size);
+	right: var(--gap-size);
+}
+
+.divider {
+	position: absolute;
+	border-width: calc(var(--border-width) / 2);
+	border-style: solid;
+	border-color: var(--default-color);
+	border-radius: var(--border-width);
+}
+
+.vertical-divider {
+	width: var(--vertical-divider-size);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.vertical-divider-1 {
+	top: calc(var(--vertical-divider-1) - var(--border-width));
+}
+
+.vertical-divider-2 {
+	top: calc(var(--vertical-divider-2) - var(--border-width));
+}
+
+.vertical-divider-3 {
+	top: calc(var(--vertical-divider-3) - var(--border-width));
+}
+
+.horizontal-divider {
+	display: inline-block;
+	height: var(--horizontal-divider-size);
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.horizontal-divider-1 {
+	left: calc(var(--horizontal-divider-1) - var(--border-width));
+}
+
+.horizontal-divider-2 {
+	left: calc(var(--horizontal-divider-2) - var(--border-width));
+}
+
+.horizontal-divider-3 {
+	left: calc(var(--horizontal-divider-3) - var(--border-width));
+}
+
+.horizontal-divider-4 {
+	left: calc(var(--horizontal-divider-4) - var(--border-width));
+}
+
+.follower * {
+	border-color: var(--follower-color);
+}
+
+.subscriber * {
+	border-color: var(--subscriber-color);
+}
+
+.cheer * {
+	border-color: var(--cheer-color);
+}
+
+.tip * {
+	border-color: var(--tip-color);
+}
+
+.host * {
+	border-color: var(--host-color);
+}
+
+.raid * {
+	border-color: var(--raid-color);
+}
+
+.hide {
+	visibility: hidden;
+}
