@@ -1,0 +1,96 @@
+{
+	"duration": {
+		"type": "number",
+		"label": "Color duration",
+		"value": 10
+	},
+	"defaultColor": {
+		"type": "colorpicker",
+		"label": "Default color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"follower": {
+		"type": "dropdown",
+		"label": "Change color for Followers",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"followerColor": {
+		"type": "colorpicker",
+		"label": "Follower color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"subscriber": {
+		"type": "dropdown",
+		"label": "Change color for Subscribers",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"subscriberColor": {
+		"type": "colorpicker",
+		"label": "Subscriber color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"cheer": {
+		"type": "dropdown",
+		"label": "Change color for Cheers",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"cheerColor": {
+		"type": "colorpicker",
+		"label": "Cheer color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"tip": {
+		"type": "dropdown",
+		"label": "Change color for Tips",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"tipColor": {
+		"type": "colorpicker",
+		"label": "Tip color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"host": {
+		"type": "dropdown",
+		"label": "Change color for Hosts",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"hostColor": {
+		"type": "colorpicker",
+		"label": "Host color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"raid": {
+		"type": "dropdown",
+		"label": "Change color for Raids",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"raidColor": {
+		"type": "colorpicker",
+		"label": "Raid color",
+		"value": "rgb(255, 255, 255)"
+	}
+}

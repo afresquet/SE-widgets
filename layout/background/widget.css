@@ -1,0 +1,45 @@
+:root {
+	--default-color: {{defaultColor}};
+	--follower-color: {{followerColor}};
+	--subscriber-color: {{subscriberColor}};
+	--cheer-color: {{cheerColor}};
+	--tip-color: {{tipColor}};
+	--host-color: {{hostColor}};
+	--raid-color: {{raidColor}};
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.background {
+	width: 100%;
+	height: 100%;
+	background-color: var(--default-color);
+	transition: background-color 0.5s ease-in-out;
+}
+
+.follower {
+	background-color: var(--follower-color);
+}
+
+.subscriber {
+	background-color: var(--subscriber-color);
+}
+
+.cheer {
+	background-color: var(--cheer-color);
+}
+
+.tip {
+	background-color: var(--tip-color);
+}
+
+.host {
+	background-color: var(--host-color);
+}
+
+.raid {
+	background-color: var(--raid-color);
+}
