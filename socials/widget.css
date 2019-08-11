@@ -1,54 +1,123 @@
+:root {
+	--text-color: {{textColor}};
+	--highlight-color: {{highlightColor}};
+	--font-size: {{fontSize}}px;
+	--icon-size: {{iconSize}}px;
+	--icon-gap: {{iconGap}}px;
+	--transition-time: {{transitionTime}}s;
+}
+
 * {
 	margin: 0px;
 	padding: 0px;
 	font-family: "Rubik", "Montserrat", sans-serif;
-	color: {{textColor}};
-	font-size: {{fontSize}}px;
-	overflow: hidden;
+	color: var(--text-color);
+	line-height: 1;
+	font-size: var(--font-size);
 }
 
 .container {
 	width: 100%;
 	height: 100%;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
+}
+
+.vertical {
+	flex-direction: column;
 	justify-content: center;
 }
 
-.socials {
-	width: 100%;
+.horizontal {
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.horizontal .com {
+	margin-right: calc(var(--icon-size) + var(--icon-gap));
+}
+
+.highlight {
+	color: var(--highlight-color);
+	transition: color 0.5s ease-in-out;
+}
+
+.icon {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	display: block;
+	position: absolute;
+}
+
+.hiding {
+	opacity: 0;
+}
+
+.socials,
+.icons {
 	position: relative;
 }
 
 .social {
-	width: 100%;
 	position: absolute;
+}
+
+.vertical .socials,
+.vertical .icons {
+	width: 100%;
+}
+
+.vertical .socials {
+	height: var(--font-size);
+}
+
+.vertical .icons {
+	height: calc(var(--icon-size) + var(--icon-gap));
+}
+
+.vertical .social,
+.vertical .icon {
 	top: 0;
-	left: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	transition: left {{transitionTime}}s ease-in-out;
+	left: 50%;
+	transform: translateX(-50%);
+	transition: left var(--transition-time) ease-in-out;
+	text-align: center;
 }
 
-.social.hiding {
-	left: 100%;
-	opacity: 0;
+.vertical .social {
+	width: 100%;
 }
 
-.social.leaving {
-	left: -100%;
+.vertical .hiding {
+	left: 150%;
 }
 
-.icon {
-	width: {{iconSize}}px;
-	height: {{iconSize}}px;
-	display: block;
+.vertical .leaving {
+	left: -50%;
 }
 
-.text {
-	margin-top: {{iconGap}}px;
-	color: {{highlightColor}};
+.horizontal .socials,
+.horizontal .icons {
+	height: 100%;
+}
+
+.horizontal .icons {
+	margin-right: var(--icon-gap);
+	position: relative;
+}
+
+.horizontal .social,
+.horizontal .icon {
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+	transition: top var(--transition-time) ease-in-out;
+}
+
+.horizontal .hiding {
+	top: -50%;
+}
+
+.horizontal .leaving {
+	top: 150%;
 }

@@ -1,82 +1,163 @@
-const values = [
-	{
-		name: "twitter",
-		icon: "https://i.imgur.com/lMqnUHv.png",
-	},
-	{
-		name: "discord",
-		icon: "https://i.imgur.com/jPUg41N.png",
-	},
-	{
-		name: "youtube",
-		icon: "https://i.imgur.com/ygZnhRj.png",
-	},
-	{
-		name: "twitch",
-		icon: "https://i.imgur.com/Y11InnC.png",
-	},
-];
+let fieldData;
 
 const cycle = (index = 0) => {
 	const socials = document.querySelectorAll(".social");
+	const icons = document.querySelectorAll(".icon");
 
-	const currentElement = socials.item(index);
-	const previousElement = document.querySelector(".showing");
-	const hiddenElement = document.querySelector(".leaving");
+	const currentSocial = socials.item(index);
+	const previousSocial = document.querySelector(".social.showing");
+	const hiddenSocial = document.querySelector(".social.leaving");
+	const currentIcon = icons.item(index);
+	const previousIcon = document.querySelector(".icon.showing");
+	const hiddenIcon = document.querySelector(".icon.leaving");
 
-	currentElement.classList.add("showing");
-	currentElement.classList.remove("hiding");
+	currentSocial.classList.add("showing");
+	currentSocial.classList.remove("hiding");
+	currentIcon.classList.add("showing");
+	currentIcon.classList.remove("hiding");
 
-	if (previousElement) {
-		previousElement.classList.add("leaving");
-		previousElement.classList.remove("showing");
+	if (previousSocial) {
+		previousSocial.classList.add("leaving");
+		previousSocial.classList.remove("showing");
+	}
+	if (previousIcon) {
+		previousIcon.classList.add("leaving");
+		previousIcon.classList.remove("showing");
 	}
 
-	if (hiddenElement) {
-		hiddenElement.classList.add("hiding");
-		hiddenElement.classList.remove("leaving");
+	if (hiddenSocial) {
+		hiddenSocial.classList.add("hiding");
+		hiddenSocial.classList.remove("leaving");
+	}
+	if (hiddenIcon) {
+		hiddenIcon.classList.add("hiding");
+		hiddenIcon.classList.remove("leaving");
 	}
 
 	const nextIndex = index + 1 >= socials.length ? 0 : index + 1;
 
-	return setTimeout(cycle, 1000, nextIndex);
+	return setTimeout(cycle, fieldData.cycleDuration * 1000, nextIndex);
 };
 
-const init = () => {
+window.addEventListener("onWidgetLoad", async obj => {
+	fieldData = obj.detail.fieldData;
+
+	const data = await fetch(fieldData.socialsApi)
+		.then(data => data.json())
+		.catch(error => console.log(error));
+
+	const values = Object.entries(data).map(([name, social]) => ({
+		...social,
+		name,
+	}));
+
 	const container = document.querySelector(".container");
+	container.classList.add(fieldData.direction);
 
 	const socials = document.createElement("div");
 	socials.classList.add("socials");
 
-	const elements = values.map(value => {
-		const social = document.createElement("div");
-		social.classList.add("social");
-		social.classList.add("hiding");
-		social.id = value.name;
+	const icons = document.createElement("div");
+	icons.classList.add("icons");
 
-		const icon = document.createElement("img");
-		icon.classList.add("icon");
-		icon.src = value.icon;
-		social.appendChild(icon);
-
+	values.forEach(value => {
 		const text = document.createElement("div");
-		text.classList.add("text");
+		text.classList.add("social");
+		text.classList.add("highlight");
+		text.classList.add("hiding");
 		text.innerText = value.name;
-		social.appendChild(text);
-
-		return social;
+		socials.appendChild(text);
 	});
 
-	elements.forEach(element => socials.append(element));
+	values.forEach(value => {
+		const icon = document.createElement("img");
+		icon.classList.add("icon");
+		icon.classList.add("hiding");
+		icon.src = value.icon;
+		icons.appendChild(icon);
+	});
 
 	container.prepend(socials);
-
-	const heigth = elements.reduce(
-		(height, element) => height + element.clientHeight,
-		0
-	);
-	socials.style.height = `${heigth / elements.length}px`;
+	if (fieldData.direction === "vertical") {
+		container.prepend(icons);
+	} else if (fieldData.direction === "horizontal") {
+		container.append(icons);
+	}
 
 	cycle();
-};
-init();
+
+	colors = await fetch(fieldData.colorsApi)
+		.then(data => data.json())
+		.catch(error => console.log(error));
+
+	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+		const eventClass = event === "default" ? "" : `.${event}`;
+
+		return `${cssString}
+		
+			${eventClass} * {
+				color: ${color.text};
+			}
+			
+			${eventClass} .highlight {
+				color: ${color.highlight};
+			}`;
+	}, "");
+
+	const style = document.createElement("style");
+	style.type = "text/css";
+	style.appendChild(document.createTextNode(css));
+
+	const head = document.querySelector("head");
+	head.appendChild(style);
+});
+
+window.addEventListener("onEventReceived", obj => {
+	const listener = obj.detail.listener;
+
+	if (
+		![
+			"follower-latest",
+			"subscriber-latest",
+			"cheer-latest",
+			"tip-latest",
+			"host-latest",
+			"raid-latest",
+		].includes(listener)
+	)
+		return;
+
+	const event = obj.detail.event;
+
+	if (fieldData[event.type] !== "yes") return;
+
+	const container = document.querySelector(".container");
+
+	container.classList.add(event.type);
+
+	setTimeout(() => {
+		container.classList.remove(event.type);
+	}, fieldData.colorDuration * 1000);
+});
+
+window.dispatchEvent(
+	new CustomEvent("onWidgetLoad", {
+		detail: {
+			fieldData: {
+				direction: "horizontal",
+				cycleDuration: 5,
+				socialsApi:
+					"https://us-central1-valbot-beta.cloudfunctions.net/socials",
+				colorsApi:
+					"https://us-central1-valbot-beta.cloudfunctions.net/colorSchemes",
+				colorDuration: 10,
+				follower: "yes",
+				subscriber: "yes",
+				cheer: "yes",
+				tip: "yes",
+				host: "yes",
+				raid: "yes",
+			},
+		},
+	})
+);
