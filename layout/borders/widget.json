@@ -129,6 +129,20 @@
 		"max": 100,
 		"steps": 1
 	},
+	"fetchColors": {
+		"type": "dropdown",
+		"label": "Fetch colors from API",
+		"value": "yes",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"colorsApi": {
+		"type": "text",
+		"label": "Colors API",
+		"value": ""
+	},
 	"defaultColor": {
 		"type": "colorpicker",
 		"label": "Default color",

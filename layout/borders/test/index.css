@@ -35,6 +35,8 @@
 	margin: 0;
 	border-width: var(--border-width);
 	transition: border-color 0.5s ease-in-out;
+	border-color: var(--default-color);
+	border-radius: var(--border-width);
 }
 
 .layout {
@@ -50,8 +52,6 @@
 .vertical-segment {
 	position: fixed;
 	border-style: solid;
-	border-color: var(--default-color);
-	border-radius: var(--border-width);
 }
 
 .webcam {
@@ -96,8 +96,6 @@
 	position: absolute;
 	border-width: calc(var(--border-width) / 2);
 	border-style: solid;
-	border-color: var(--default-color);
-	border-radius: var(--border-width);
 }
 
 .vertical-divider {

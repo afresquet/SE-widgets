@@ -1,7 +1,31 @@
 let fieldData;
+let colors;
 
-window.addEventListener("onWidgetLoad", obj => {
+window.addEventListener("onWidgetLoad", async obj => {
 	fieldData = obj.detail.fieldData;
+
+	if (!fieldData.fetchColors) return;
+
+	colors = await fetch(fieldData.colorsApi)
+		.then(data => data.json())
+		.catch(error => console.log(error));
+
+	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+		const eventClass = event === "default" ? ".background" : `.${event}`;
+
+		return `${cssString}
+		
+			${eventClass} {
+				background-color: ${color.background};
+			}`;
+	}, "");
+
+	const style = document.createElement("style");
+	style.type = "text/css";
+	style.appendChild(document.createTextNode(css));
+
+	const head = document.querySelector("head");
+	head.appendChild(style);
 });
 
 window.addEventListener("onEventReceived", obj => {

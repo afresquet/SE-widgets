@@ -1,6 +1,7 @@
 let fieldData;
+let colors;
 
-window.addEventListener("onWidgetLoad", obj => {
+window.addEventListener("onWidgetLoad", async obj => {
 	fieldData = obj.detail.fieldData;
 
 	const webcam = document.querySelector(".webcam");
@@ -54,6 +55,29 @@ window.addEventListener("onWidgetLoad", obj => {
 
 		divider.classList.remove("hide");
 	});
+
+	if (!fieldData.fetchColors) return;
+
+	colors = await fetch(fieldData.colorsApi)
+		.then(data => data.json())
+		.catch(error => console.log(error));
+
+	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+		const eventClass = event === "default" ? "" : `.${event}`;
+
+		return `${cssString}
+		
+			${eventClass} * {
+				border-color: ${color.highlight};
+			}`;
+	}, "");
+
+	const style = document.createElement("style");
+	style.type = "text/css";
+	style.appendChild(document.createTextNode(css));
+
+	const head = document.querySelector("head");
+	head.appendChild(style);
 });
 
 window.addEventListener("onEventReceived", obj => {
@@ -92,6 +116,9 @@ window.dispatchEvent(
 				duration: 5,
 				horizontalDividers: 4,
 				verticalDividers: 3,
+				fetchColors: "yes",
+				colorsApi:
+					"https://us-central1-valbot-beta.cloudfunctions.net/colorSchemes",
 				follower: "yes",
 				subscriber: "yes",
 				cheer: "yes",
