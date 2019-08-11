@@ -1,84 +1,99 @@
+body {
+	width: 200px;
+	height: 500px;
+}
+
+.container {
+	background-color: #1a2429;
+}
+
+/* * * * * * * * * * * */
+
+:root {
+	--font-size: 30px;
+	--font-color: #fff;
+	--value-font-size: 20px;
+	--highlight-color: #008cb6;
+	--transition-time: 1s;
+	--icon-size: 50px;
+	--gap-size: 20px;
+}
+
 * {
 	margin: 0px;
 	padding: 0px;
 	font-family: "Rubik", "Montserrat", sans-serif;
-	color: white;
-	font-size: 100px;
-	overflow: hidden;
+	color: var(--font-color);
+	font-size: var(--font-size);
 }
 
 .container {
-	width: 670px;
-	height: 85px;
+	width: 100%;
+	height: 100%;
 	position: relative;
-	background-color: #1a2429;
 }
 
 .event {
-	width: 100%;
-	height: 100%;
 	position: absolute;
-	top: 0;
-	left: 0;
 	display: flex;
 }
 
-.vertical {
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	transition: left 1s ease-in-out;
+.icon {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	display: block;
 }
 
-.event.vertical.hiding {
-	left: 100%;
+.amount {
+	font-size: var(--value-font-size);
+}
+
+.highlight {
+	color: var(--highlight-color);
+}
+
+.hiding {
 	opacity: 0;
 }
 
-.event.vertical.leaving {
+.vertical {
+	width: 100%;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	transition: left var(--transition-time) ease-in-out;
+	flex-direction: column;
+	align-items: center;
+}
+
+.vertical > .icon {
+	margin-bottom: var(--gap-size);
+}
+
+.vertical.hiding {
+	left: 100%;
+}
+
+.vertical.leaving {
 	left: -100%;
 }
 
 .horizontal {
-	padding: 0px 20px;
-	flex-direction: row;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: top var(--transition-time) ease-in-out;
 	align-items: center;
-	justify-content: flex-start;
-	transition: top 1s ease-in-out;
 }
 
-.event.horizontal.hiding {
-	top: -100%;
-	opacity: 0;
-}
-
-.event.horizontal.leaving {
-	top: 100%;
-}
-
-.icon {
-	width: 45px;
-	height: 45px;
-	display: block;
-}
-
-.vertical > .text {
-	margin-top: 20px;
-	line-height: 1;
-}
-
-.horizontal > .text {
-	margin-left: 20px;
-	line-height: 1;
-}
-
-.vertical > .amount {
-	color: #008cb6;
-	font-size: 40px;
-}
-
+.horizontal > .icon,
 .horizontal > .amount {
-	margin-left: 20px;
-	color: #008cb6;
-	font-size: 40px;
+	margin: 0 var(--gap-size);
+}
+
+.horizontal.hiding {
+	top: -50%;
+}
+
+.horizontal.leaving {
+	top: 150%;
 }

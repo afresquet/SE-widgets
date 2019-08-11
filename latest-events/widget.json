@@ -8,6 +8,16 @@
 			"horizontal": "Horizontal"
 		}
 	},
+	"colorsApi": {
+		"type": "text",
+		"label": "Colors API",
+		"value": ""
+	},
+	"colorDuration": {
+		"type": "number",
+		"label": "Color change duration",
+		"value": 10
+	},
 	"follower": {
 		"type": "dropdown",
 		"label": "Display followers:",
