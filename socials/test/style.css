@@ -50,14 +50,17 @@ body {
 
 .highlight {
 	color: var(--highlight-color);
-	transition: color 0.5s ease-in-out;
+	transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out,
+		left var(--transition-time) ease-in-out,
+		top var(--transition-time) ease-in-out;
 }
 
 .icon {
 	width: var(--icon-size);
 	height: var(--icon-size);
-	display: block;
 	position: absolute;
+	background-color: var(--highlight-color);
+	-webkit-mask-size: cover;
 }
 
 .hiding {
@@ -91,7 +94,6 @@ body {
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	transition: left var(--transition-time) ease-in-out;
 	text-align: center;
 }
 
@@ -122,7 +124,6 @@ body {
 	top: 50%;
 	right: 0;
 	transform: translateY(-50%);
-	transition: top var(--transition-time) ease-in-out;
 }
 
 .horizontal .hiding {

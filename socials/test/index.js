@@ -70,10 +70,11 @@ window.addEventListener("onWidgetLoad", async obj => {
 	});
 
 	values.forEach(value => {
-		const icon = document.createElement("img");
+		const icon = document.createElement("div");
 		icon.classList.add("icon");
+		icon.classList.add("highlight");
 		icon.classList.add("hiding");
-		icon.src = value.icon;
+		icon.style = `-webkit-mask-image: url(${value.icon});`;
 		icons.appendChild(icon);
 	});
 
@@ -101,6 +102,10 @@ window.addEventListener("onWidgetLoad", async obj => {
 			
 			${eventClass} .highlight {
 				color: ${color.highlight};
+			}
+			
+			${eventClass} .icon {
+				background-color: ${color.highlight};
 			}`;
 	}, "");
 
