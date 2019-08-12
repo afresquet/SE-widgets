@@ -8,10 +8,16 @@
 			"horizontal": "Horizontal"
 		}
 	},
-	"socialsApi": {
+	"api": {
 		"type": "text",
-		"label": "Socials API",
+		"label": "API",
 		"value": ""
+	},
+	"cycleDuration": {
+		"type": "number",
+		"label": "Cycle every (seconds)",
+		"min": 1,
+		"value": 10
 	},
 	"textColor": {
 		"type": "colorpicker",
@@ -41,81 +47,10 @@
 		"min": 1,
 		"value": 20
 	},
-	"cycleDuration": {
-		"type": "number",
-		"label": "Time",
-		"min": 1,
-		"value": 10
-	},
 	"transitionTime": {
 		"type": "number",
 		"label": "Transition time",
 		"min": 1,
 		"value": 1
-	},
-	"colorsApi": {
-		"type": "text",
-		"label": "Colors API",
-		"value": ""
-	},
-	"colorDuration": {
-		"type": "number",
-		"label": "Color time",
-		"min": 1,
-		"value": 10
-	},
-	"follower": {
-		"type": "dropdown",
-		"label": "Change color for Followers",
-		"value": "yes",
-		"options": {
-			"yes": "Yes",
-			"no": "No"
-		}
-	},
-	"subscriber": {
-		"type": "dropdown",
-		"label": "Change color for Subscribers",
-		"value": "yes",
-		"options": {
-			"yes": "Yes",
-			"no": "No"
-		}
-	},
-	"cheer": {
-		"type": "dropdown",
-		"label": "Change color for Cheers",
-		"value": "yes",
-		"options": {
-			"yes": "Yes",
-			"no": "No"
-		}
-	},
-	"tip": {
-		"type": "dropdown",
-		"label": "Change color for Tips",
-		"value": "yes",
-		"options": {
-			"yes": "Yes",
-			"no": "No"
-		}
-	},
-	"host": {
-		"type": "dropdown",
-		"label": "Change color for Hosts",
-		"value": "yes",
-		"options": {
-			"yes": "Yes",
-			"no": "No"
-		}
-	},
-	"raid": {
-		"type": "dropdown",
-		"label": "Change color for Raids",
-		"value": "yes",
-		"options": {
-			"yes": "Yes",
-			"no": "No"
-		}
 	}
 }

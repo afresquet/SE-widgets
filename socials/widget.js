@@ -1,8 +1,12 @@
 let fieldData;
+let apiData;
 
 const cycle = (index = 0) => {
 	const socials = document.querySelectorAll(".social");
 	const icons = document.querySelectorAll(".icon");
+
+	if (!socials.length || !icons.length)
+		return setTimeout(cycle, fieldData.cycleDuration * 1000, index);
 
 	const currentSocial = socials.item(index);
 	const previousSocial = document.querySelector(".social.showing");
@@ -40,61 +44,60 @@ const cycle = (index = 0) => {
 };
 
 window.addEventListener("onWidgetLoad", async obj => {
-	fieldData = obj.detail.fieldData;
+	try {
+		fieldData = obj.detail.fieldData;
 
-	const data = await fetch(fieldData.socialsApi)
-		.then(data => data.json())
-		.catch(error => console.log(error));
+		cycle();
 
-	const values = Object.entries(data).map(([name, social]) => ({
-		...social,
-		name,
-	}));
+		apiData = await fetch(
+			`${fieldData.api}?socials=true&colors=true&events=true&settings=true`
+		).then(data => data.json());
 
-	const container = document.querySelector(".container");
-	container.classList.add(fieldData.direction);
+		const { socials, colors } = apiData;
 
-	const socials = document.createElement("div");
-	socials.classList.add("socials");
+		const values = Object.entries(socials).map(([name, social]) => ({
+			...social,
+			name,
+		}));
 
-	const icons = document.createElement("div");
-	icons.classList.add("icons");
+		const container = document.querySelector(".container");
+		container.classList.add(fieldData.direction);
 
-	values.forEach(value => {
-		const text = document.createElement("div");
-		text.classList.add("social");
-		text.classList.add("highlight");
-		text.classList.add("hiding");
-		text.innerText = value.name;
-		socials.appendChild(text);
-	});
+		const socialsContainer = document.createElement("div");
+		socialsContainer.classList.add("socials");
 
-	values.forEach(value => {
-		const icon = document.createElement("div");
-		icon.classList.add("icon");
-		icon.classList.add("highlight");
-		icon.classList.add("hiding");
-		icon.style = `-webkit-mask-image: url(${value.icon});`;
-		icons.appendChild(icon);
-	});
+		const iconsContainer = document.createElement("div");
+		iconsContainer.classList.add("icons");
 
-	container.prepend(socials);
-	if (fieldData.direction === "vertical") {
-		container.prepend(icons);
-	} else if (fieldData.direction === "horizontal") {
-		container.append(icons);
-	}
+		values.forEach((value, i) => {
+			const text = document.createElement("div");
+			text.classList.add("social");
+			text.classList.add("highlight");
+			if (i > 0) text.classList.add("hiding");
+			text.innerText = value.name;
+			socialsContainer.appendChild(text);
+		});
 
-	cycle();
+		values.forEach((value, i) => {
+			const icon = document.createElement("div");
+			icon.classList.add("icon");
+			icon.classList.add("highlight");
+			if (i > 0) icon.classList.add("hiding");
+			icon.style = `-webkit-mask-image: url(${value.icon});`;
+			iconsContainer.appendChild(icon);
+		});
 
-	colors = await fetch(fieldData.colorsApi)
-		.then(data => data.json())
-		.catch(error => console.log(error));
+		container.prepend(socialsContainer);
+		if (fieldData.direction === "vertical") {
+			container.prepend(iconsContainer);
+		} else if (fieldData.direction === "horizontal") {
+			container.append(iconsContainer);
+		}
 
-	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-		const eventClass = event === "default" ? "" : `.${event}`;
+		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+			const eventClass = event === "default" ? "" : `.${event}`;
 
-		return `${cssString}
+			return `${cssString}
 		
 			${eventClass} * {
 				color: ${color.text};
@@ -107,14 +110,19 @@ window.addEventListener("onWidgetLoad", async obj => {
 			${eventClass} .icon {
 				background-color: ${color.highlight};
 			}`;
-	}, "");
+		}, "");
 
-	const style = document.createElement("style");
-	style.type = "text/css";
-	style.appendChild(document.createTextNode(css));
+		const style = document.createElement("style");
+		style.type = "text/css";
+		style.appendChild(document.createTextNode(css));
 
-	const head = document.querySelector("head");
-	head.appendChild(style);
+		const head = document.querySelector("head");
+		head.appendChild(style);
+	} catch (error) {
+		const container = document.querySelector(".container");
+
+		container.textContent = error;
+	}
 });
 
 window.addEventListener("onEventReceived", obj => {
@@ -134,7 +142,9 @@ window.addEventListener("onEventReceived", obj => {
 
 	const event = obj.detail.event;
 
-	if (fieldData[event.type] !== "yes") return;
+	const { events, settings } = apiData;
+
+	if (!events[event.type].active) return;
 
 	const container = document.querySelector(".container");
 
@@ -142,5 +152,5 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		container.classList.remove(event.type);
-	}, fieldData.colorDuration * 1000);
+	}, settings.layout.alertDuration * 1000);
 });
