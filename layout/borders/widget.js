@@ -1,83 +1,89 @@
 let fieldData;
-let colors;
+let apiData;
 
 window.addEventListener("onWidgetLoad", async obj => {
-	fieldData = obj.detail.fieldData;
+	try {
+		fieldData = obj.detail.fieldData;
 
-	const webcam = document.querySelector(".webcam");
-	const display = document.querySelector(".display");
-	const horizontalSegment = document.querySelector(".horizontal-segment");
-	const verticalSegment = document.querySelector(".vertical-segment");
+		apiData = await fetch(
+			`${fieldData.api}?colors=true&events=true&settings=true`
+		).then(data => data.json());
 
-	switch (fieldData.webcamPosition) {
-		case "topleft": {
-			webcam.classList.add("topleft");
-			display.classList.add("bottomright");
-			horizontalSegment.classList.add("topright");
-			verticalSegment.classList.add("bottomleft");
-			break;
+		const webcam = document.querySelector(".webcam");
+		const display = document.querySelector(".display");
+		const horizontalSegment = document.querySelector(".horizontal-segment");
+		const verticalSegment = document.querySelector(".vertical-segment");
+
+		switch (fieldData.webcamPosition) {
+			case "topleft": {
+				webcam.classList.add("topleft");
+				display.classList.add("bottomright");
+				horizontalSegment.classList.add("topright");
+				verticalSegment.classList.add("bottomleft");
+				break;
+			}
+			case "topright": {
+				webcam.classList.add("topright");
+				display.classList.add("bottomleft");
+				horizontalSegment.classList.add("topleft");
+				verticalSegment.classList.add("bottomright");
+				break;
+			}
+			case "bottomright": {
+				webcam.classList.add("bottomright");
+				display.classList.add("topleft");
+				horizontalSegment.classList.add("bottomleft");
+				verticalSegment.classList.add("topright");
+				break;
+			}
+			case "bottomleft": {
+				webcam.classList.add("bottomleft");
+				display.classList.add("topright");
+				horizontalSegment.classList.add("bottomright");
+				verticalSegment.classList.add("topleft");
+				break;
+			}
+
+			default:
+				break;
 		}
-		case "topright": {
-			webcam.classList.add("topright");
-			display.classList.add("bottomleft");
-			horizontalSegment.classList.add("topleft");
-			verticalSegment.classList.add("bottomright");
-			break;
-		}
-		case "bottomright": {
-			webcam.classList.add("bottomright");
-			display.classList.add("topleft");
-			horizontalSegment.classList.add("bottomleft");
-			verticalSegment.classList.add("topright");
-			break;
-		}
-		case "bottomleft": {
-			webcam.classList.add("bottomleft");
-			display.classList.add("topright");
-			horizontalSegment.classList.add("bottomright");
-			verticalSegment.classList.add("topleft");
-			break;
-		}
 
-		default:
-			break;
-	}
+		const horizontalDividers = document.querySelectorAll(".horizontal-divider");
+		horizontalDividers.forEach((divider, index) => {
+			if (index + 1 > fieldData.horizontalDividers) return;
 
-	const horizontalDividers = document.querySelectorAll(".horizontal-divider");
-	horizontalDividers.forEach((divider, index) => {
-		if (index + 1 > fieldData.horizontalDividers) return;
+			divider.classList.remove("hide");
+		});
+		const verticalDividers = document.querySelectorAll(".vertical-divider");
+		verticalDividers.forEach((divider, index) => {
+			if (index + 1 > fieldData.verticalDividers) return;
 
-		divider.classList.remove("hide");
-	});
-	const verticalDividers = document.querySelectorAll(".vertical-divider");
-	verticalDividers.forEach((divider, index) => {
-		if (index + 1 > fieldData.verticalDividers) return;
+			divider.classList.remove("hide");
+		});
 
-		divider.classList.remove("hide");
-	});
+		const { colors } = apiData;
 
-	if (!fieldData.fetchColors) return;
+		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+			const eventClass = event === "default" ? "" : `.${event}`;
 
-	colors = await fetch(fieldData.colorsApi)
-		.then(data => data.json())
-		.catch(error => console.log(error));
-
-	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-		const eventClass = event === "default" ? "" : `.${event}`;
-
-		return `${cssString}
+			return `${cssString}
 		
 			${eventClass} * {
 				border-color: ${color.highlight};
 			}`;
-	}, "");
+		}, "");
 
-	const style = document.createElement("style");
-	style.type = "text/css";
-	style.appendChild(document.createTextNode(css));
+		const style = document.createElement("style");
+		style.type = "text/css";
+		style.appendChild(document.createTextNode(css));
 
-	const head = document.querySelector("head");
-	head.appendChild(style);
+		const head = document.querySelector("head");
+		head.appendChild(style);
+	} catch (error) {
+		const container = document.querySelector(".layout");
+
+		container.textContent = error;
+	}
 });
 
 window.addEventListener("onEventReceived", obj => {
@@ -95,9 +101,11 @@ window.addEventListener("onEventReceived", obj => {
 	)
 		return;
 
+	const { events, settings } = apiData;
+
 	const event = obj.detail.event;
 
-	if (fieldData[event.type] !== "yes") return;
+	if (!events[event.type].active) return;
 
 	const layout = document.querySelector(".layout");
 
@@ -105,5 +113,5 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		layout.classList.remove(event.type);
-	}, fieldData.duration * 1000);
+	}, settings.layout.alertDuration * 1000);
 });

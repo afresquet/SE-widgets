@@ -1,31 +1,37 @@
 let fieldData;
-let colors;
+let apiData;
 
 window.addEventListener("onWidgetLoad", async obj => {
-	fieldData = obj.detail.fieldData;
+	try {
+		fieldData = obj.detail.fieldData;
 
-	if (!fieldData.fetchColors) return;
+		apiData = await fetch(
+			`${fieldData.api}?events=true&colors=true&settings=true`
+		).then(data => data.json());
 
-	colors = await fetch(fieldData.colorsApi)
-		.then(data => data.json())
-		.catch(error => console.log(error));
+		const { colors } = apiData;
 
-	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-		const eventClass = event === "default" ? ".background" : `.${event}`;
+		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+			const eventClass = event === "default" ? ".background" : `.${event}`;
 
-		return `${cssString}
+			return `${cssString}
 		
 			${eventClass} {
 				background-color: ${color.background};
 			}`;
-	}, "");
+		}, "");
 
-	const style = document.createElement("style");
-	style.type = "text/css";
-	style.appendChild(document.createTextNode(css));
+		const style = document.createElement("style");
+		style.type = "text/css";
+		style.appendChild(document.createTextNode(css));
 
-	const head = document.querySelector("head");
-	head.appendChild(style);
+		const head = document.querySelector("head");
+		head.appendChild(style);
+	} catch (error) {
+		const container = document.querySelector(".background");
+
+		container.textContent = error;
+	}
 });
 
 window.addEventListener("onEventReceived", obj => {
@@ -43,9 +49,11 @@ window.addEventListener("onEventReceived", obj => {
 	)
 		return;
 
+	const { events, settings } = apiData;
+
 	const event = obj.detail.event;
 
-	if (fieldData[event.type] !== "yes") return;
+	if (!events[event.type].active) return;
 
 	const background = document.querySelector(".background");
 
@@ -53,5 +61,5 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		background.classList.remove(event.type);
-	}, fieldData.duration * 1000);
+	}, settings.layout.alertDuration * 1000);
 });
