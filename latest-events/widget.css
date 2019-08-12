@@ -1,4 +1,3 @@
-
 :root {
 	--font-size: {{fontSize}}px;
 	--font-color: {{fontColor}};
@@ -31,7 +30,8 @@
 .icon {
 	width: var(--icon-size);
 	height: var(--icon-size);
-	display: block;
+	background-color: var(--highlight-color);
+	-webkit-mask-size: cover;
 }
 
 .amount {
@@ -40,6 +40,7 @@
 
 .highlight {
 	color: var(--highlight-color);
+	transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out;
 }
 
 .hiding {

@@ -1,7 +1,11 @@
 let fieldData;
+let apiData;
 
 const cycle = (index = 0) => {
 	const events = document.querySelectorAll(".event");
+
+	if (!events.length)
+		return setTimeout(cycle, fieldData.cycleDuration * 1000, index);
 
 	const currentElement = events.item(index);
 	const previousElement = document.querySelector(".showing");
@@ -22,121 +26,111 @@ const cycle = (index = 0) => {
 
 	const nextIndex = index + 1 >= events.length ? 0 : index + 1;
 
-	return setTimeout(cycle, fieldData.time * 1000, nextIndex);
+	return setTimeout(cycle, fieldData.cycleDuration * 1000, nextIndex);
 };
 
 window.addEventListener("onWidgetLoad", async obj => {
-	fieldData = obj.detail.fieldData;
+	try {
+		fieldData = obj.detail.fieldData;
 
-	const recents = obj.detail.recents.sort(
-		(a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-	);
+		cycle();
 
-	const events = recents.reduce((obj, event) => {
-		if (
-			!["follower", "subscriber", "cheer", "tip", "host", "raid"].includes(
-				event.type
-			)
-		)
-			return obj;
+		apiData = await fetch(
+			`${fieldData.api}?colors=true&events=true&settings=true`
+		).then(data => data.json());
 
-		if (obj[event.type]) return obj;
+		const { events, colors } = apiData;
 
-		switch (event.type) {
-			case "cheer":
-			case "tip":
-			case "host":
-			case "raid": {
-				if (
-					fieldData[event.type] === "yes" &&
-					fieldData[`${event.type}Min`] <= event.amount
-				) {
-					obj[event.type] = event;
-				}
+		const recents = obj.detail.recents.sort(
+			(a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
+		);
 
-				break;
-			}
-
-			default: {
-				if (fieldData[event.type] === "yes") {
-					obj[event.type] = event;
-				}
-
-				break;
-			}
-		}
-
-		return obj;
-	}, {});
-
-	Object.values(events).forEach(event => {
-		let size = fieldData.fontSize;
-
-		const container = document.querySelector(".container");
-
-		const eventContainer = document.createElement("div");
-		eventContainer.classList.add("event");
-		eventContainer.classList.add(fieldData.direction);
-		eventContainer.classList.add("hiding");
-		eventContainer.id = event.type;
-		container.appendChild(eventContainer);
-
-		const image = document.createElement("img");
-		image.classList.add("icon");
-		image.src = fieldData[`${event.type}Icon`];
-		eventContainer.appendChild(image);
-
-		const name = document.createElement("div");
-		name.classList.add("text");
-		name.textContent = event.name;
-		eventContainer.appendChild(name);
-
-		if (fieldData.direction === "vertical") {
-			while (
-				name.clientWidth > container.clientWidth - fieldData.gapSize &&
-				size > fieldData.minFontSize
-			) {
-				size = size - 1;
-				name.style.fontSize = `${size}px`;
-			}
-		}
-
-		if (event.amount) {
-			const amount = document.createElement("div");
-			amount.classList.add("amount");
-			amount.classList.add("highlight");
+		const recentEvents = recents.reduce((obj, event) => {
+			if (!events[event.type].active || obj[event.type]) return obj;
 
 			switch (event.type) {
-				case "subscriber": {
-					amount.textContent = `x${event.amount}`;
+				case "cheer":
+				case "tip":
+				case "host":
+				case "raid": {
+					if (events[event.type].min <= event.amount) {
+						obj[event.type] = event;
+					}
+
 					break;
 				}
-				case "tip": {
-					amount.textContent = fieldData.tipSymbol + event.amount;
-					break;
-				}
+
 				default: {
-					amount.textContent = event.amount;
+					obj[event.type] = event;
+
 					break;
 				}
 			}
 
-			eventContainer.appendChild(amount);
-		}
-	});
+			return obj;
+		}, {});
 
-	cycle();
+		Object.values(recentEvents).forEach((event, i) => {
+			let size = fieldData.fontSize;
 
-	if (!fieldData.colorsApi) return;
+			const container = document.querySelector(".container");
 
-	colors = await fetch(fieldData.colorsApi)
-		.then(data => data.json())
-		.catch(error => console.log(error));
+			const eventContainer = document.createElement("div");
+			eventContainer.classList.add("event");
+			eventContainer.classList.add(fieldData.direction);
+			if (i > 0) eventContainer.classList.add("hiding");
+			eventContainer.id = event.type;
+			container.appendChild(eventContainer);
 
-	const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-		const eventClass = event === "default" ? "" : `.${event}`;
+			const icon = document.createElement("div");
+			icon.classList.add("icon");
+			icon.classList.add("highlight");
+			icon.style = `-webkit-mask-image: url(${events[event.type].icon});`;
+			eventContainer.appendChild(icon);
 
-		return `${cssString}
+			const name = document.createElement("div");
+			name.classList.add("text");
+			name.textContent = event.name;
+			eventContainer.appendChild(name);
+
+			if (fieldData.direction === "vertical") {
+				while (
+					name.clientWidth > container.clientWidth - fieldData.gapSize &&
+					size > fieldData.minFontSize
+				) {
+					size = size - 1;
+					name.style.fontSize = `${size}px`;
+				}
+			}
+
+			if (event.amount) {
+				const amount = document.createElement("div");
+				amount.classList.add("amount");
+				amount.classList.add("highlight");
+
+				switch (event.type) {
+					case "subscriber": {
+						amount.textContent = `x${event.amount}`;
+						break;
+					}
+					case "tip": {
+						amount.textContent = fieldData.tipSymbol + event.amount;
+						break;
+					}
+					default: {
+						amount.textContent = event.amount;
+						break;
+					}
+				}
+
+				eventContainer.appendChild(amount);
+			}
+		});
+
+		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+			const eventClass = event === "default" ? "" : `.${event}`;
+
+			return `${cssString}
 		
 			${eventClass} * {
 				color: ${color.text};
@@ -144,19 +138,30 @@ window.addEventListener("onWidgetLoad", async obj => {
 			
 			${eventClass} .highlight {
 				color: ${color.highlight};
+			}
+			
+			${eventClass} .icon {
+				background-color: ${color.highlight};
 			}`;
-	}, "");
+		}, "");
 
-	const style = document.createElement("style");
-	style.type = "text/css";
-	style.appendChild(document.createTextNode(css));
+		const style = document.createElement("style");
+		style.type = "text/css";
+		style.appendChild(document.createTextNode(css));
 
-	const head = document.querySelector("head");
-	head.appendChild(style);
+		const head = document.querySelector("head");
+		head.appendChild(style);
+	} catch (error) {
+		const container = document.querySelector(".container");
+
+		container.textContent = error;
+	}
 });
 
 window.addEventListener("onEventReceived", obj => {
 	const listener = obj.detail.listener;
+
+	const { events } = apiData;
 
 	if (
 		![
@@ -172,11 +177,11 @@ window.addEventListener("onEventReceived", obj => {
 
 	const event = obj.detail.event;
 
-	if (fieldData[event.type] !== "yes") return;
+	if (!events[event.type].active) return;
 
 	if (
 		["cheer", "tip", "host", "raid"].includes(event.type) &&
-		fieldData[`${event.type}Min`] > event.amount
+		events[event.type].min > event.amount
 	)
 		return;
 
@@ -234,6 +239,8 @@ window.addEventListener("onEventReceived", obj => {
 window.addEventListener("onEventReceived", obj => {
 	const listener = obj.detail.listener;
 
+	const { events } = apiData;
+
 	if (
 		![
 			"follower-latest",
@@ -248,7 +255,7 @@ window.addEventListener("onEventReceived", obj => {
 
 	const event = obj.detail.event;
 
-	if (fieldData[event.type] !== "yes") return;
+	if (!events[event.type].active) return;
 
 	const container = document.querySelector(".container");
 
@@ -256,7 +263,7 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		container.classList.remove(event.type);
-	}, fieldData.colorDuration * 1000);
+	}, apiData.settings.layout.alertDuration * 1000);
 });
 
 window.dispatchEvent(
@@ -264,32 +271,20 @@ window.dispatchEvent(
 		detail: {
 			fieldData: {
 				direction: "vertical",
-				time: 3,
+				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
+				cycleDuration: 5,
 				fontSize: 40,
 				minFontSize: 10,
 				gapSize: 10,
 				tipSymbol: "$",
-				colorsApi:
-					"https://us-central1-valbot-beta.cloudfunctions.net/colorSchemes",
-				colorDuration: 3,
-				follower: "yes",
-				followerIcon: "https://i.imgur.com/3EZQo3S.png",
-				subscriber: "yes",
-				subscriberIcon: "https://i.imgur.com/1SU07Xe.png",
-				cheer: "yes",
-				cheerMin: 1,
-				cheerIcon: "https://i.imgur.com/FI6eR0l.png",
-				tip: "yes",
-				tipMin: 1,
-				host: "yes",
-				hostMin: 1,
-				raid: "yes",
-				raidMin: 1,
 			},
 			recents: [
-				{ type: "follower", name: "fjsakdlfsaldafjksadjfl" },
-				{ type: "subscriber", name: "webs2d", amount: 2 },
-				{ type: "cheer", name: "Etchy", amount: 2 },
+				{ type: "follower", name: "test-follower" },
+				{ type: "subscriber", name: "test-subscriber", amount: 5 },
+				{ type: "cheer", name: "test-cheer", amount: 1000 },
+				{ type: "tip", name: "test-tip", amount: 10 },
+				{ type: "host", name: "test-host", amount: 15 },
+				{ type: "raid", name: "test-raid", amount: 20 },
 			],
 		},
 	})
