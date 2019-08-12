@@ -1,7 +1,16 @@
 {
+	"direction": {
+		"type": "dropdown",
+		"label": "Direction",
+		"value": "vertical",
+		"options": {
+			"vertical": "Vertical",
+			"horizontal": "Horizontal"
+		}
+	},
 	"server": {
 		"type": "dropdown",
-		"label": "Server:",
+		"label": "Server",
 		"value": "North America",
 		"options": {
 			"na1": "North America",
@@ -19,7 +28,7 @@
 	},
 	"queue": {
 		"type": "dropdown",
-		"label": "Queue:",
+		"label": "Queue",
 		"value": "RANKED_SOLO_5x5",
 		"options": {
 			"RANKED_SOLO_5x5": "Solo/Duo Queue (SR)",
@@ -29,12 +38,12 @@
 	},
 	"summonerName": {
 		"type": "text",
-		"label": "Summoner Name:",
+		"label": "Summoner Name",
 		"value": ""
 	},
 	"apiKey": {
 		"type": "text",
-		"label": "API Key:",
+		"label": "API Key",
 		"value": ""
 	},
 	"refreshRate": {
@@ -42,6 +51,17 @@
 		"label": "Refresh rate (minutes)",
 		"min": 1,
 		"value": 5
+	},
+	"api": {
+		"type": "text",
+		"label": "API",
+		"value": ""
+	},
+	"fontSize": {
+		"type": "number",
+		"label": "Font size",
+		"min": 1,
+		"value": 30
 	},
 	"textColor": {
 		"type": "colorpicker",
@@ -53,17 +73,13 @@
 		"label": "Highlight text color",
 		"value": "rgb(255, 255, 255)"
 	},
-	"fontSize": {
-		"type": "number",
-		"label": "Font size",
-		"min": 1,
-		"value": 30
-	},
 	"emblemSize": {
-		"type": "number",
+		"type": "slider",
 		"label": "Emblem size",
-		"min": 1,
-		"value": 50
+		"value": 30,
+		"min": 0,
+		"max": 100,
+		"steps": 1
 	},
 	"gapSize": {
 		"type": "number",

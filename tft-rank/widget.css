@@ -1,30 +1,52 @@
+
+:root {
+	--font-size: {{fontSize}}px;
+	--font-color: {{textColor}};
+	--highlight-color: {{highlightColor}};
+	--gap-size: {{gapSize}}px;
+	--emblem-size: {{emblemSize}}%;
+}
+
 * {
 	margin: 0px;
 	padding: 0px;
 	font-family: "Rubik", "Montserrat", sans-serif;
-	color: {{textColor}};
-	font-size: {{fontSize}}px;
-	text-align: center;
-	overflow: hidden;
+	color: var(--font-color);
+	font-size: var(--font-size);
 }
 
 .container {
 	width: 100%;
 	height: 100%;
-	padding: {{gapSize}}px 0px;
+	display: flex;
 }
 
-.emblem {
-	display: block;
-	width: {{emblemSize}}%;
-	height: auto;
-	margin: 0px auto;
+.vertical {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
-.text {
-	margin-top: calc({{gapSize}}px / 2);
+.horizontal {
+	align-items: center;
+	justify-content: flex-start;
 }
 
-.rank {
-	color: {{highlightColor}};
+.vertical .emblem {
+	max-width: var(--emblem-size);
+	margin-bottom: var(--gap-size);
+}
+
+.horizontal .emblem {
+	max-height: var(--emblem-size);
+	margin: 0 var(--gap-size);
+}
+
+.horizontal .points {
+	margin: 0 var(--gap-size);
+}
+
+.highlight {
+	color: var(--highlight-color);
+	transition: color 0.5s ease-in-out;
 }

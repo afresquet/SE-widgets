@@ -1,31 +1,62 @@
+body {
+	width: 500px;
+	height: 500px;
+}
+
+.container {
+	background-color: #1a2429;
+}
+
+/* * * * * * * * * * * */
+
+:root {
+	--font-size: 30px;
+	--font-color: #fff;
+	--highlight-color: #008cb6;
+	--gap-size: 20px;
+	--emblem-size: 20%;
+}
+
 * {
 	margin: 0px;
 	padding: 0px;
 	font-family: "Rubik", "Montserrat", sans-serif;
-	color: #fff;
-	font-size: 20px;
-	text-align: center;
-	overflow: hidden;
+	color: var(--font-color);
+	font-size: var(--font-size);
 }
 
 .container {
-	width: 187px;
-	height: 500px;
-	padding: 10px 0px;
-	background-color: #1a2429;
+	width: 100%;
+	height: 100%;
+	display: flex;
 }
 
-.emblem {
-	display: block;
-	width: 50%;
-	height: auto;
-	margin: 0px auto;
+.vertical {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
-.text {
-	margin-top: 10px;
+.horizontal {
+	align-items: center;
+	justify-content: flex-start;
 }
 
-.rank {
-	color: #008cb6;
+.vertical .emblem {
+	max-width: var(--emblem-size);
+	margin-bottom: var(--gap-size);
+}
+
+.horizontal .emblem {
+	max-height: var(--emblem-size);
+	margin: 0 var(--gap-size);
+}
+
+.horizontal .points {
+	margin: 0 var(--gap-size);
+}
+
+.highlight {
+	color: var(--highlight-color);
+	transition: color 0.5s ease-in-out;
 }

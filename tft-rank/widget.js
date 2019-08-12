@@ -10,8 +10,9 @@ const emblems = {
 	CHALLENGER: "https://i.imgur.com/bD0OgAM.png",
 };
 
-let fieldData = {};
-let id = "";
+let fieldData;
+let apiData;
+let id;
 
 const fetchRankData = async () => {
 	const url = `https://cors-anywhere.herokuapp.com/https://${
@@ -29,6 +30,7 @@ const refreshRankData = async () => {
 	const data = await fetchRankData();
 
 	const container = document.querySelector(".container");
+	container.classList.add(fieldData.direction);
 
 	if (!data) {
 		container.textContent = "No rank data received";
@@ -44,18 +46,12 @@ const refreshRankData = async () => {
 	}
 	emblem.src = emblems[data.tier];
 
-	let text = document.querySelector(".text");
-	if (!text) {
-		text = document.createElement("div");
-		text.classList.add("text");
-		container.append(text);
-	}
-
 	let rank = document.querySelector(".rank");
 	if (!rank) {
 		rank = document.createElement("div");
 		rank.classList.add("rank");
-		text.append(rank);
+		rank.classList.add("highlight");
+		container.append(rank);
 	}
 	rank.textContent = ["MASTER", "GRANDMASTER", "CHALLENGER"].includes(data.tier)
 		? data.tier
@@ -65,7 +61,7 @@ const refreshRankData = async () => {
 	if (!points) {
 		points = document.createElement("div");
 		points.classList.add("points");
-		text.append(points);
+		container.append(points);
 	}
 	points.textContent = `${data.leaguePoints} LP`;
 
@@ -73,24 +69,87 @@ const refreshRankData = async () => {
 };
 
 window.addEventListener("onWidgetLoad", async obj => {
-	fieldData = obj.detail.fieldData;
+	try {
+		fieldData = obj.detail.fieldData;
 
-	const url = `https://cors-anywhere.herokuapp.com/https://${
-		fieldData.server
-	}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${
-		fieldData.summonerName
-	}?api_key=${fieldData.apiKey}`;
+		const url = `https://cors-anywhere.herokuapp.com/https://${
+			fieldData.server
+		}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${
+			fieldData.summonerName
+		}?api_key=${fieldData.apiKey}`;
 
-	const response = await fetch(url).then(res => res.json());
+		const response = await fetch(url).then(res => res.json());
 
-	if (response.status) {
+		if (response.status) {
+			const container = document.querySelector(".container");
+			container.textContent = response.status.message;
+
+			return;
+		}
+
+		id = response.id;
+
+		refreshRankData();
+
+		apiData = await fetch(
+			`${fieldData.api}?colors=true&events=true&settings=true`
+		).then(data => data.json());
+
+		const { colors } = apiData;
+
+		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
+			const eventClass = event === "default" ? "" : `.${event}`;
+
+			return `${cssString}
+	
+		${eventClass} * {
+			color: ${color.text};
+		}
+		
+		${eventClass} .highlight {
+			color: ${color.highlight};
+		}`;
+		}, "");
+
+		const style = document.createElement("style");
+		style.type = "text/css";
+		style.appendChild(document.createTextNode(css));
+
+		const head = document.querySelector("head");
+		head.appendChild(style);
+	} catch (error) {
 		const container = document.querySelector(".container");
-		container.textContent = response.status.message;
 
-		return;
+		container.textContent = error;
 	}
+});
 
-	id = response.id;
+window.addEventListener("onEventReceived", obj => {
+	const listener = obj.detail.listener;
 
-	refreshRankData();
+	if (
+		![
+			"follower-latest",
+			"subscriber-latest",
+			"cheer-latest",
+			"tip-latest",
+			"host-latest",
+			"raid-latest",
+		].includes(listener)
+	)
+		return;
+
+	const event = obj.detail.event;
+
+	const { events, settings } = apiData;
+
+	if (!events[event.type].active) return;
+
+	const container = document.querySelector(".container");
+
+	container.classList.add(event.type);
+
+	setTimeout(() => {
+		container.classList.remove(event.type);
+	}, settings.layout.alertDuration * 1000);
 });
