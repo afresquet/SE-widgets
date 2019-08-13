@@ -272,27 +272,3 @@ window.addEventListener("onEventReceived", obj => {
 		container.classList.remove(event.type);
 	}, settings.alertDuration * 1000);
 });
-
-window.dispatchEvent(
-	new CustomEvent("onWidgetLoad", {
-		detail: {
-			fieldData: {
-				direction: "vertical",
-				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
-				cycleDuration: 5,
-				fontSize: 40,
-				minFontSize: 10,
-				gapSize: 10,
-				tipSymbol: "$",
-			},
-			recents: [
-				{ type: "follower", name: "test-follower" },
-				{ type: "subscriber", name: "test-subscriber", amount: 5 },
-				{ type: "cheer", name: "test-cheer", amount: 1000 },
-				{ type: "tip", name: "test-tip", amount: 10 },
-				{ type: "host", name: "test-host", amount: 15 },
-				{ type: "raid", name: "test-raid", amount: 20 },
-			],
-		},
-	})
-);

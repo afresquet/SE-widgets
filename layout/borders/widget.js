@@ -114,16 +114,3 @@ window.addEventListener("onEventReceived", obj => {
 		layout.classList.remove(event.type);
 	}, settings.alertDuration * 1000);
 });
-
-window.dispatchEvent(
-	new CustomEvent("onWidgetLoad", {
-		detail: {
-			fieldData: {
-				webcamPosition: "topleft",
-				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
-				horizontalDividers: 4,
-				verticalDividers: 3,
-			},
-		},
-	})
-);

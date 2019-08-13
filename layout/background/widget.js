@@ -62,13 +62,3 @@ window.addEventListener("onEventReceived", obj => {
 		background.classList.remove(event.type);
 	}, settings.alertDuration * 1000);
 });
-
-window.dispatchEvent(
-	new CustomEvent("onWidgetLoad", {
-		detail: {
-			fieldData: {
-				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
-			},
-		},
-	})
-);
