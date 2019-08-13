@@ -49,11 +49,9 @@ window.addEventListener("onWidgetLoad", async obj => {
 
 		cycle();
 
-		apiData = await fetch(
-			`${fieldData.api}?socials=true&colors=true&events=true&settings=true`
-		).then(data => data.json());
+		apiData = await fetch(fieldData.api).then(data => data.json());
 
-		const { socials, colors } = apiData;
+		const { socials, events, settings } = apiData;
 
 		const values = Object.entries(socials).map(([name, social]) => ({
 			...social,
@@ -94,23 +92,32 @@ window.addEventListener("onWidgetLoad", async obj => {
 			container.append(iconsContainer);
 		}
 
-		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-			const eventClass = event === "default" ? "" : `.${event}`;
-
-			return `${cssString}
+		const css = Object.entries(events).reduce(
+			(cssString, [eventName, event]) => `${cssString}
 		
-			${eventClass} * {
-				color: ${color.text};
+			.${eventName} * {
+				color: ${event.colors.primary};
 			}
 			
-			${eventClass} .highlight {
-				color: ${color.highlight};
+			.${eventName} .highlight {
+				color: ${event.colors.secondary};
 			}
 			
-			${eventClass} .icon {
-				background-color: ${color.highlight};
-			}`;
-		}, "");
+			.${eventName} .icon {
+				background-color: ${event.colors.secondary};
+			}`,
+			`* {
+				color: ${settings.colors.default.primary};
+			}
+			
+			.highlight {
+				color: ${settings.colors.default.secondary};
+			}
+			
+			.icon {
+				background-color: ${settings.colors.default.secondary};
+			}`
+		);
 
 		const style = document.createElement("style");
 		style.type = "text/css";
@@ -152,5 +159,5 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		container.classList.remove(event.type);
-	}, settings.layout.alertDuration * 1000);
+	}, settings.alertDuration * 1000);
 });

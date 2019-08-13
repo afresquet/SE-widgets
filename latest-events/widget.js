@@ -35,11 +35,9 @@ window.addEventListener("onWidgetLoad", async obj => {
 
 		cycle();
 
-		apiData = await fetch(
-			`${fieldData.api}?colors=true&events=true&settings=true`
-		).then(data => data.json());
+		apiData = await fetch(fieldData.api).then(data => data.json());
 
-		const { events, colors } = apiData;
+		const { events, settings } = apiData;
 
 		const recents = obj.detail.recents.sort(
 			(a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
@@ -127,23 +125,32 @@ window.addEventListener("onWidgetLoad", async obj => {
 			}
 		});
 
-		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-			const eventClass = event === "default" ? "" : `.${event}`;
-
-			return `${cssString}
+		const css = Object.entries(events).reduce(
+			(cssString, [eventName, event]) => `${cssString}
 		
-			${eventClass} * {
-				color: ${color.text};
+			.${eventName} * {
+				color: ${event.colors.primary};
 			}
 			
-			${eventClass} .highlight {
-				color: ${color.highlight};
+			.${eventName} .highlight {
+				color: ${event.colors.secondary};
 			}
 			
-			${eventClass} .icon {
-				background-color: ${color.highlight};
-			}`;
-		}, "");
+			.${eventName} .icon {
+				background-color: ${event.colors.secondary};
+			}`,
+			`* {
+				color: ${settings.colors.default.primary};
+			}
+			
+			.highlight {
+				color: ${settings.colors.default.secondary};
+			}
+			
+			.icon {
+				background-color: ${settings.colors.default.secondary};
+			}`
+		);
 
 		const style = document.createElement("style");
 		style.type = "text/css";
@@ -239,7 +246,7 @@ window.addEventListener("onEventReceived", obj => {
 window.addEventListener("onEventReceived", obj => {
 	const listener = obj.detail.listener;
 
-	const { events } = apiData;
+	const { events, settings } = apiData;
 
 	if (
 		![
@@ -263,5 +270,29 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		container.classList.remove(event.type);
-	}, apiData.settings.layout.alertDuration * 1000);
+	}, settings.alertDuration * 1000);
 });
+
+window.dispatchEvent(
+	new CustomEvent("onWidgetLoad", {
+		detail: {
+			fieldData: {
+				direction: "vertical",
+				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
+				cycleDuration: 5,
+				fontSize: 40,
+				minFontSize: 10,
+				gapSize: 10,
+				tipSymbol: "$",
+			},
+			recents: [
+				{ type: "follower", name: "test-follower" },
+				{ type: "subscriber", name: "test-subscriber", amount: 5 },
+				{ type: "cheer", name: "test-cheer", amount: 1000 },
+				{ type: "tip", name: "test-tip", amount: 10 },
+				{ type: "host", name: "test-host", amount: 15 },
+				{ type: "raid", name: "test-raid", amount: 20 },
+			],
+		},
+	})
+);

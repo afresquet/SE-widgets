@@ -5,21 +5,20 @@ window.addEventListener("onWidgetLoad", async obj => {
 	try {
 		fieldData = obj.detail.fieldData;
 
-		apiData = await fetch(
-			`${fieldData.api}?events=true&colors=true&settings=true`
-		).then(data => data.json());
+		apiData = await fetch(fieldData.api).then(data => data.json());
 
-		const { colors } = apiData;
+		const { events, settings } = apiData;
 
-		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-			const eventClass = event === "default" ? ".background" : `.${event}`;
-
-			return `${cssString}
+		const css = Object.entries(events).reduce(
+			(cssString, [eventName, event]) => `${cssString}
 		
-			${eventClass} {
-				background-color: ${color.background};
-			}`;
-		}, "");
+			.${eventName} {
+				background-color: ${event.colors.background};
+			}`,
+			`.background {
+				background-color: ${settings.colors.default.background};
+			}`
+		);
 
 		const style = document.createElement("style");
 		style.type = "text/css";
@@ -61,5 +60,15 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		background.classList.remove(event.type);
-	}, settings.layout.alertDuration * 1000);
+	}, settings.alertDuration * 1000);
 });
+
+window.dispatchEvent(
+	new CustomEvent("onWidgetLoad", {
+		detail: {
+			fieldData: {
+				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
+			},
+		},
+	})
+);

@@ -91,25 +91,28 @@ window.addEventListener("onWidgetLoad", async obj => {
 
 		refreshRankData();
 
-		apiData = await fetch(
-			`${fieldData.api}?colors=true&events=true&settings=true`
-		).then(data => data.json());
+		apiData = await fetch(fieldData.api).then(data => data.json());
 
-		const { colors } = apiData;
+		const { events, settings } = apiData;
 
-		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-			const eventClass = event === "default" ? "" : `.${event}`;
-
-			return `${cssString}
+		const css = Object.entries(events).reduce(
+			(cssString, [eventName, event]) => `${cssString}
 	
-		${eventClass} * {
-			color: ${color.text};
+		.${eventName} * {
+			color: ${event.colors.primary};
 		}
 		
-		${eventClass} .highlight {
-			color: ${color.highlight};
-		}`;
-		}, "");
+		.${eventName} .highlight {
+			color: ${event.colors.secondary};
+		}`,
+			`* {
+			color: ${settings.colors.default.primary};
+		}
+		
+		.highlight {
+			color: ${settings.colors.default.secondary};
+		}`
+		);
 
 		const style = document.createElement("style");
 		style.type = "text/css";
@@ -151,5 +154,5 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		container.classList.remove(event.type);
-	}, settings.layout.alertDuration * 1000);
+	}, settings.alertDuration * 1000);
 });

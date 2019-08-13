@@ -5,9 +5,9 @@ window.addEventListener("onWidgetLoad", async obj => {
 	try {
 		fieldData = obj.detail.fieldData;
 
-		apiData = await fetch(
-			`${fieldData.api}?colors=true&events=true&settings=true`
-		).then(data => data.json());
+		apiData = await fetch(fieldData.api).then(data => data.json());
+
+		const { events, settings } = apiData;
 
 		const webcam = document.querySelector(".webcam");
 		const display = document.querySelector(".display");
@@ -61,17 +61,16 @@ window.addEventListener("onWidgetLoad", async obj => {
 			divider.classList.remove("hide");
 		});
 
-		const { colors } = apiData;
-
-		const css = Object.entries(colors).reduce((cssString, [event, color]) => {
-			const eventClass = event === "default" ? "" : `.${event}`;
-
-			return `${cssString}
+		const css = Object.entries(events).reduce(
+			(cssString, [eventName, event]) => `${cssString}
 		
-			${eventClass} * {
-				border-color: ${color.highlight};
-			}`;
-		}, "");
+			.${eventName} * {
+				border-color: ${event.colors.secondary};
+			}`,
+			`* {
+				border-color: ${settings.colors.default.secondary};
+			}`
+		);
 
 		const style = document.createElement("style");
 		style.type = "text/css";
@@ -113,5 +112,18 @@ window.addEventListener("onEventReceived", obj => {
 
 	setTimeout(() => {
 		layout.classList.remove(event.type);
-	}, settings.layout.alertDuration * 1000);
+	}, settings.alertDuration * 1000);
 });
+
+window.dispatchEvent(
+	new CustomEvent("onWidgetLoad", {
+		detail: {
+			fieldData: {
+				webcamPosition: "topleft",
+				api: "https://us-central1-valbot-beta.cloudfunctions.net/widget",
+				horizontalDividers: 4,
+				verticalDividers: 3,
+			},
+		},
+	})
+);
