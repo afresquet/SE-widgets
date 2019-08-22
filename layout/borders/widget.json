@@ -129,6 +129,36 @@
 		"max": 100,
 		"steps": 1
 	},
+	"splits": {
+		"type": "dropdown",
+		"label": "Splits",
+		"value": "no",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"splitsDividers": {
+		"type": "slider",
+		"label": "Splits dividers",
+		"value": 2,
+		"min": 0,
+		"max": 6,
+		"steps": 1
+	},
+	"splitsHeight": {
+		"type": "number",
+		"label": "Splits height",
+		"value": 60
+	},
+	"splitsWidth": {
+		"type": "slider",
+		"label": "Splits Width",
+		"value": 50,
+		"min": 0,
+		"max": 100,
+		"steps": 1
+	},
 	"defaultColor": {
 		"type": "colorpicker",
 		"label": "Default color",

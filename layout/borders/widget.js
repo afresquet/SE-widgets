@@ -48,6 +48,16 @@ window.addEventListener("onWidgetLoad", async obj => {
 				break;
 		}
 
+		const splits = document.querySelector(".splits");
+		if (fieldData.splits === "yes") {
+			splits.classList.remove("hide");
+
+			for (let i = 0; i < fieldData.splitsDividers; i++) {
+				const splitDivider = document.createElement("div");
+				splitDivider.classList.add("split-divider");
+				splits.append(splitDivider);
+			}
+		}
 		const horizontalDividers = document.querySelectorAll(".horizontal-divider");
 		horizontalDividers.forEach((divider, index) => {
 			if (index + 1 > fieldData.horizontalDividers) return;

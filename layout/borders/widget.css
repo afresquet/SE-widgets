@@ -20,6 +20,8 @@
 	--horizontal-divider-2: {{horizontalDivider2}}%;
 	--horizontal-divider-3: {{horizontalDivider3}}%;
 	--horizontal-divider-4: {{horizontalDivider4}}%;
+	--splits-height: {{splitsHeight}}px;
+	--splits-width: {{splitsWidth}}%;
 
 	--default-color: {{defaultColor}};
 	--follower-color: {{followerColor}};
@@ -137,6 +139,24 @@
 
 .horizontal-divider-4 {
 	left: calc(var(--horizontal-divider-4) - var(--border-width));
+}
+
+.splits {
+	width: calc(var(--splits-width) - var(--border-width));
+	height: calc(100% - var(--splits-height));
+	top: calc(var(--border-width) * -1 + var(--splits-height));
+	left: calc(var(--border-width) * -1);
+	display: flex;
+	justify-content: space-evenly;
+	border-width: var(--border-width);
+}
+
+.split-divider {
+	height: calc(100% + var(--border-width));
+	margin-top: calc(var(--border-width) * -1);
+	display: inline-block;
+	border-width: calc(var(--border-width) / 2);
+	border-style: solid;
 }
 
 .follower * {
