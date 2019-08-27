@@ -48,27 +48,31 @@ window.addEventListener("onWidgetLoad", async obj => {
 				break;
 		}
 
-		const splits = document.querySelector(".splits");
 		if (fieldData.splits === "yes") {
-			splits.classList.remove("hide");
+			const splitsDivider = document.createElement("div");
+			splitsDivider.classList.add("divider");
+			splitsDivider.classList.add("splits");
+			horizontalSegment.append(splitsDivider);
 
 			for (let i = 0; i < fieldData.splitsDividers; i++) {
 				const splitDivider = document.createElement("div");
 				splitDivider.classList.add("split-divider");
-				splits.append(splitDivider);
+				splitsDivider.append(splitDivider);
 			}
 		}
-		const horizontalDividers = document.querySelectorAll(".horizontal-divider");
-		horizontalDividers.forEach((divider, index) => {
-			if (index + 1 > fieldData.horizontalDividers) return;
-
-			divider.classList.remove("hide");
+		fieldData.verticalDividers.split(/\s+/).forEach(pos => {
+			const verticalDivider = document.createElement("div");
+			verticalDivider.classList.add("divider");
+			verticalDivider.classList.add("vertical-divider");
+			verticalDivider.style = `top: calc(${pos}% - var(--border-width));`;
+			verticalSegment.append(verticalDivider);
 		});
-		const verticalDividers = document.querySelectorAll(".vertical-divider");
-		verticalDividers.forEach((divider, index) => {
-			if (index + 1 > fieldData.verticalDividers) return;
-
-			divider.classList.remove("hide");
+		fieldData.horizontalDividers.split(/\s+/).forEach(pos => {
+			const horizontalDivider = document.createElement("div");
+			horizontalDivider.classList.add("divider");
+			horizontalDivider.classList.add("horizontal-divider");
+			horizontalDivider.style = `left: calc(${pos}% - var(--border-width));`;
+			horizontalSegment.append(horizontalDivider);
 		});
 
 		const css = Object.entries(events).reduce(

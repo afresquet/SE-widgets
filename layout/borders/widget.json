@@ -22,32 +22,37 @@
 	},
 	"borderWidth": {
 		"type": "number",
-		"label": "Worder width",
+		"label": "Border width",
 		"value": 5
 	},
 	"webcamSize": {
+		"type": "number",
 		"label": "Webcam size",
-		"type": "slider",
-		"value": "25",
+		"value": 25,
 		"min": 0,
-		"max": 100,
-		"steps": 1
+		"max": 100
 	},
 	"displaySize": {
+		"type": "number",
 		"label": "Display size",
-		"type": "slider",
-		"value": "90",
+		"value": 90,
 		"min": 0,
-		"max": 100,
-		"steps": 1
+		"max": 100
+	},
+	"aspectRatio": {
+		"type": "dropdown",
+		"label": "Display Aspect Ratio",
+		"value": "9 * 16",
+		"options": {
+			"9 * 16": "16:9",
+			"3 * 4": "4:3",
+			"2 * 3": "3:2"
+		}
 	},
 	"horizontalDividers": {
-		"type": "slider",
+		"type": "text",
 		"label": "Horizontal segment dividers",
-		"value": 4,
-		"min": 0,
-		"max": 4,
-		"steps": 1
+		"value": ""
 	},
 	"horizontalDividerSize": {
 		"type": "slider",
@@ -57,74 +62,15 @@
 		"max": 100,
 		"steps": 1
 	},
-	"horizontalDivider1": {
-		"type": "slider",
-		"label": "Horizontal divider 1 position",
-		"value": 20,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
-	"horizontalDivider2": {
-		"type": "slider",
-		"label": "Horizontal divider 2 position",
-		"value": 40,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
-	"horizontalDivider3": {
-		"type": "slider",
-		"label": "Horizontal divider 3 position",
-		"value": 60,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
-	"horizontalDivider4": {
-		"type": "slider",
-		"label": "Horizontal divider 4 position",
-		"value": 80,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
 	"verticalDividers": {
-		"type": "slider",
+		"type": "text",
 		"label": "Vertical segment dividers",
-		"value": 3,
-		"min": 0,
-		"max": 3,
-		"steps": 1
+		"value": ""
 	},
 	"verticalDividerSize": {
 		"type": "slider",
 		"label": "Vertical dividers size",
 		"value": 70,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
-	"verticalDivider1": {
-		"type": "slider",
-		"label": "Vertical divider 1 position",
-		"value": 25,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
-	"verticalDivider2": {
-		"type": "slider",
-		"label": "Vertical divider 2 position",
-		"value": 50,
-		"min": 0,
-		"max": 100,
-		"steps": 1
-	},
-	"verticalDivider3": {
-		"type": "slider",
-		"label": "Vertical divider 3 position",
-		"value": 75,
 		"min": 0,
 		"max": 100,
 		"steps": 1
@@ -139,12 +85,9 @@
 		}
 	},
 	"splitsDividers": {
-		"type": "slider",
+		"type": "number",
 		"label": "Splits dividers",
-		"value": 2,
-		"min": 0,
-		"max": 6,
-		"steps": 1
+		"value": 2
 	},
 	"splitsHeight": {
 		"type": "number",
@@ -155,6 +98,14 @@
 		"type": "slider",
 		"label": "Splits Width",
 		"value": 50,
+		"min": 0,
+		"max": 100,
+		"steps": 1
+	},
+	"splitsOffset": {
+		"type": "slider",
+		"label": "Splits Offset",
+		"value": 0,
 		"min": 0,
 		"max": 100,
 		"steps": 1
