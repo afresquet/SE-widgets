@@ -1,4 +1,6 @@
 :root {
+	--corner-radius: 15px;
+
 	--default-color: #1a2429;
 	--follower-color: yellow;
 	--subscriber-color: purple;
@@ -17,6 +19,7 @@
 	width: 100%;
 	height: 100%;
 	background-color: var(--default-color);
+	border-radius: var(--corner-radius);
 	transition: background-color 0.5s ease-in-out;
 }
 

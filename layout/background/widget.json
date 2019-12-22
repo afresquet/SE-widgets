@@ -4,6 +4,11 @@
 		"label": "API",
 		"value": ""
 	},
+	"cornerRadius": {
+		"type": "number",
+		"label": "Corner radius",
+		"value": 0
+	},
 	"defaultColor": {
 		"type": "colorpicker",
 		"label": "Default color",
