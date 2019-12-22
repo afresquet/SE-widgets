@@ -1,0 +1,69 @@
+:root {
+	--border-width: 5px;
+	--gap-size: 10px;
+
+	--webcam-width: calc(100vw - var(--border-width) * 2);
+	--webcam-height: calc(100vw / 16 * 9);
+
+	--default-color: #008cb6;
+	--follower-color: yellow;
+	--subscriber-color: purple;
+	--cheer-color: red;
+	--tip-color: green;
+	--host-color: blue;
+	--raid-color: orange;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	border-width: var(--border-width);
+	transition: border-color 0.5s ease-in-out;
+	border-color: var(--default-color);
+	border-radius: var(--border-width);
+}
+
+.layout {
+	width: 100%;
+	height: 100%;
+}
+
+.webcam {
+	width: calc(100vw - var(--border-width) * 2);
+	height: calc(var(--webcam-height) - var(--border-width) * 2);
+	border-style: solid;
+}
+
+.follower * {
+	border-color: var(--follower-color);
+}
+
+.subscriber * {
+	border-color: var(--subscriber-color);
+}
+
+.cheer * {
+	border-color: var(--cheer-color);
+}
+
+.tip * {
+	border-color: var(--tip-color);
+}
+
+.host * {
+	border-color: var(--host-color);
+}
+
+.raid * {
+	border-color: var(--raid-color);
+}
+
+/* FOR TESTING */
+
+body {
+	width: 1920px;
+	height: 1080px;
+}
+.webcam {
+	background-color: lightgray;
+}

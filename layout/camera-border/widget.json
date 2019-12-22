@@ -1,0 +1,148 @@
+{
+	"webcamPosition": {
+		"type": "dropdown",
+		"label": "Webcam position",
+		"value": "topleft",
+		"options": {
+			"topleft": "Top Left",
+			"topright": "Top Right",
+			"bottomright": "Bottom Right",
+			"bottomleft": "Bottom Left"
+		}
+	},
+	"api": {
+		"type": "text",
+		"label": "API",
+		"value": ""
+	},
+	"gapSize": {
+		"type": "number",
+		"label": "Gap size",
+		"value": 10
+	},
+	"borderWidth": {
+		"type": "number",
+		"label": "Border width",
+		"value": 5
+	},
+	"webcamSize": {
+		"type": "number",
+		"label": "Webcam size",
+		"value": 25,
+		"min": 0,
+		"max": 100
+	},
+	"displaySize": {
+		"type": "number",
+		"label": "Display size",
+		"value": 90,
+		"min": 0,
+		"max": 100
+	},
+	"aspectRatio": {
+		"type": "dropdown",
+		"label": "Display Aspect Ratio",
+		"value": "9 * 16",
+		"options": {
+			"9 * 16": "16:9",
+			"3 * 4": "4:3",
+			"2 * 3": "3:2"
+		}
+	},
+	"horizontalDividers": {
+		"type": "text",
+		"label": "Horizontal segment dividers",
+		"value": ""
+	},
+	"horizontalDividerSize": {
+		"type": "slider",
+		"label": "Vertical dividers size",
+		"value": 60,
+		"min": 0,
+		"max": 100,
+		"steps": 1
+	},
+	"verticalDividers": {
+		"type": "text",
+		"label": "Vertical segment dividers",
+		"value": ""
+	},
+	"verticalDividerSize": {
+		"type": "slider",
+		"label": "Vertical dividers size",
+		"value": 70,
+		"min": 0,
+		"max": 100,
+		"steps": 1
+	},
+	"splits": {
+		"type": "dropdown",
+		"label": "Splits",
+		"value": "no",
+		"options": {
+			"yes": "Yes",
+			"no": "No"
+		}
+	},
+	"splitsDividers": {
+		"type": "number",
+		"label": "Splits dividers",
+		"value": 2
+	},
+	"splitsHeight": {
+		"type": "number",
+		"label": "Splits height",
+		"value": 60
+	},
+	"splitsWidth": {
+		"type": "slider",
+		"label": "Splits Width",
+		"value": 50,
+		"min": 0,
+		"max": 100,
+		"steps": 1
+	},
+	"splitsOffset": {
+		"type": "slider",
+		"label": "Splits Offset",
+		"value": 0,
+		"min": 0,
+		"max": 100,
+		"steps": 1
+	},
+	"defaultColor": {
+		"type": "colorpicker",
+		"label": "Default color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"followerColor": {
+		"type": "colorpicker",
+		"label": "Follower color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"subscriberColor": {
+		"type": "colorpicker",
+		"label": "Subscriber color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"cheerColor": {
+		"type": "colorpicker",
+		"label": "Cheer color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"tipColor": {
+		"type": "colorpicker",
+		"label": "Tip color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"hostColor": {
+		"type": "colorpicker",
+		"label": "Host color",
+		"value": "rgb(255, 255, 255)"
+	},
+	"raidColor": {
+		"type": "colorpicker",
+		"label": "Raid color",
+		"value": "rgb(255, 255, 255)"
+	}
+}
